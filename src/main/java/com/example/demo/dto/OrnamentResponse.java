@@ -26,4 +26,24 @@ public class OrnamentResponse {
     public void setSize(Integer size) {
         this.size = size;
     }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public Double getPrice() {
+        return price;
+    }
+
+    public Integer getSize() {
+        return size;
+    }
+
+    public Integer getColour() {
+        return colour;
+    }
 }

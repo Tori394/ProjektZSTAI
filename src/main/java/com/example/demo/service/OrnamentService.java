@@ -5,7 +5,7 @@ import com.example.demo.repository.OrnamentRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.NoSuchElementException;
 
 @Service
 public class OrnamentService {
@@ -19,15 +19,20 @@ public class OrnamentService {
         return repository.findAll();
     }
 
-    public Optional<Ornament> getOrnamentById(Long id) {
-        return repository.findById(id);
+    public Ornament getOrnamentById(Long id) {
+        return repository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("Nie znaleziono produktu o ID: " + id));
     }
 
     public Ornament createOrnament(Ornament ornament){
+        if (repository.existsByName(ornament.getName())) {
+            throw new IllegalStateException("Produkt o nazwie '" + ornament.getName() + "' już istnieje!");
+        }
         return repository.save(ornament);
     }
 
     public void deleteOrnament(Long id) {
-        repository.deleteById(id);
+        Ornament ornament = getOrnamentById(id); // Jeśli nie ma - NoSuchElementException
+        repository.delete(ornament);
     }
 }

@@ -16,8 +16,6 @@ public class AuthController {
 
     private final AuthService authService;
 
-    // Wstrzykujemy tylko AuthService, bo kontroler nie potrzebuje już
-    // PasswordEncodera, JwtUtil ani AuthenticationManager.
     public AuthController(AuthService authService) {
         this.authService = authService;
     }
