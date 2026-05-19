@@ -9,6 +9,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
@@ -47,6 +48,69 @@ public class OrnamentServiceTests {
         verify(repository, times(1)).findById(ornamentId);
     }
 
+    @Test
+    void shouldReturnAllOrnaments() {
+        // Given
+        Ornament o1 = new Ornament();
+        o1.setId(1L);
+        o1.setName("Bombka 1");
+
+        Ornament o2 = new Ornament();
+        o2.setId(2L);
+        o2.setName("Bombka 2");
+
+        when(repository.findAll()).thenReturn(List.of(o1, o2));
+
+        // When
+        List<Ornament> result = service.getAllOrnaments();
+
+        // Then
+        assertNotNull(result);
+        assertEquals(2, result.size());
+        assertEquals("Bombka 1", result.get(0).getName());
+        verify(repository, times(1)).findAll();
+    }
+
+    void shouldCreateOrnamentWhenNameDoesNotExist() {
+        // Given
+        Ornament newOrnament = new Ornament();
+        newOrnament.setName("Srebrna Bombka");
+
+        Ornament savedOrnament = new Ornament();
+        savedOrnament.setId(1L);
+        savedOrnament.setName("Srebrna Bombka");
+
+        when(repository.existsByName("Srebrna Bombka")).thenReturn(false);
+        when(repository.save(newOrnament)).thenReturn(savedOrnament);
+
+        // When
+        Ornament result = service.createOrnament(newOrnament);
+
+        // Then
+        assertNotNull(result);
+        assertEquals(1L, result.getId());
+        assertEquals("Srebrna Bombka", result.getName());
+        verify(repository, times(1)).existsByName("Srebrna Bombka");
+        verify(repository, times(1)).save(newOrnament);
+    }
+
+    @Test
+    void shouldDeleteOrnamentWhenExists() {
+        // Given
+        Long ornamentId = 1L;
+        Ornament ornamentToDelete = new Ornament();
+        ornamentToDelete.setId(ornamentId);
+
+        when(repository.findById(ornamentId)).thenReturn(Optional.of(ornamentToDelete));
+
+        // When
+        service.deleteOrnament(ornamentId);
+
+        // Then
+        verify(repository, times(1)).findById(ornamentId);
+        verify(repository, times(1)).delete(ornamentToDelete);
+    }
+
     //NEGATIVE PATH
     @Test
     void shouldThrowExceptionWhenOrnamentDoesNotExist() {
@@ -61,6 +125,22 @@ public class OrnamentServiceTests {
 
         assertEquals("Nie znaleziono produktu o ID: 99", exception.getMessage());
         verify(repository, times(1)).findById(nonExistingId);
+    }
+
+    @Test
+    void shouldThrowExceptionWhenDeletingNonExistingOrnament() {
+        // Given
+        Long nonExistingId = 99L;
+        when(repository.findById(nonExistingId)).thenReturn(Optional.empty());
+
+        // When & Then
+        NoSuchElementException exception = assertThrows(NoSuchElementException.class, () -> {
+            service.deleteOrnament(nonExistingId);
+        });
+
+        assertEquals("Nie znaleziono produktu o ID: 99", exception.getMessage());
+        verify(repository, times(1)).findById(nonExistingId);
+        verify(repository, never()).delete(any(Ornament.class));
     }
 
     //BIZNESOWE
