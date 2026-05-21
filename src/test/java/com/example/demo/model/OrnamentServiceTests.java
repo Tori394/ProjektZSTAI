@@ -1,6 +1,5 @@
-package com.example.demo;
+package com.example.demo.model;
 
-import com.example.demo.model.Ornament;
 import com.example.demo.repository.OrnamentRepository;
 import com.example.demo.service.OrnamentService;
 import org.junit.jupiter.api.Test;

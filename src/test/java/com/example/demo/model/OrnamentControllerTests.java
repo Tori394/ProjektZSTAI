@@ -1,8 +1,7 @@
-package com.example.demo;
+package com.example.demo.model;
 
 import com.example.demo.controller.OrnamentController;
 import com.example.demo.dto.OrnamentRequest;
-import com.example.demo.model.Ornament;
 import com.example.demo.service.OrnamentService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

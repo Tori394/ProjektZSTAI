@@ -1,9 +1,8 @@
-package com.example.demo;
+package com.example.demo.model;
 
 import com.example.demo.dto.OrnamentRequest;
 import com.example.demo.dto.OrnamentResponse;
 import com.example.demo.mapper.OrnamentMapper;
-import com.example.demo.model.Ornament;
 import org.junit.jupiter.api.Test;
 import org.springframework.test.util.ReflectionTestUtils;
 import static org.junit.jupiter.api.Assertions.assertEquals;
