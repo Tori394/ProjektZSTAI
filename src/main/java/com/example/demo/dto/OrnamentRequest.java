@@ -19,7 +19,7 @@ public class OrnamentRequest {
 
     @NotNull(message = "Kolor wymagany")
     @Min(value = 0)
-    @Max(value = 100)
+    @Max(value = 5)
     private Integer colour;
 
     public Integer getColour() { return colour; }

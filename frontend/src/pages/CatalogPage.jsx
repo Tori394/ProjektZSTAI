@@ -1,6 +1,15 @@
 import { useEffect, useState } from 'react';
 import api from '../api/axios';
 
+const COLOURS = {
+  0: '#e74c3c',  // czerwony
+  1: '#27ae60',  // zielony
+  2: '#f1c40f',  // złoty
+  3: '#bdc3c7',  // srebrny
+  4: '#2980b9',  // niebieski
+  5: '#ffffff',  // biały
+};
+
 export default function CatalogPage() {
   const [ornaments, setOrnaments] = useState([]);
 
@@ -26,7 +35,14 @@ export default function CatalogPage() {
               <td>{o.name}</td>
               <td>{o.price} zł</td>
               <td>{o.size}</td>
-              <td>{o.colour}</td>
+              <td><span style={{
+                    display: 'inline-block',
+                    width: '24px',
+                    height: '24px',
+                    borderRadius: '4px',
+                    background: COLOURS[o.colour] ?? '#ccc',
+                    border: '1px solid #aaa'
+                  }} /></td>
             </tr>
           ))}
         </tbody>

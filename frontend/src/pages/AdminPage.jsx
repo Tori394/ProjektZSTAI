@@ -3,6 +3,15 @@ import api from '../api/axios';
 
 const empty = { name: '', price: '', size: '', colour: '' };
 
+const COLOURS = {
+  0: '#e74c3c',  // czerwony
+  1: '#27ae60',  // zielony
+  2: '#f1c40f',  // złoty
+  3: '#bdc3c7',  // srebrny
+  4: '#2980b9',  // niebieski
+  5: '#ffffff',  // biały
+};
+
 export default function AdminPage() {
   const [ornaments, setOrnaments] = useState([]);
   const [form, setForm] = useState(empty);
@@ -62,7 +71,14 @@ export default function AdminPage() {
               <td>{o.name}</td>
               <td>{o.price} zł</td>
               <td>{o.size}</td>
-              <td>{o.colour}</td>
+              <td><span style={{
+                    display: 'inline-block',
+                    width: '24px',
+                    height: '24px',
+                    borderRadius: '4px',
+                    background: COLOURS[o.colour] ?? '#ccc',
+                    border: '1px solid #aaa'
+                  }} /></td>
               <td>
                 <button onClick={() => handleDelete(o.id)}
                   style={{ background: '#e74c3c', color: 'white', cursor: 'pointer' }}>
